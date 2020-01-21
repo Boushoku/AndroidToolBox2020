@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">AndroidToolBox</string>
+    <string name="login_title">Connexion</string>
+    <string name="login_identifier">Identifiant</string>
+    <string name="login_password">Mot de passe</string>
+    <string name="login_validate">Valider</string>
+</resources>
