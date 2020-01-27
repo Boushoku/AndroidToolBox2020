@@ -16,7 +16,5 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_second_fragment">Hello Second Fragment</string>
     <string name="button_first_fragment">Swipe to second</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="logout">Déconnexion</string>
 </resources>
