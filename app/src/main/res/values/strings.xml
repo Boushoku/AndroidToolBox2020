@@ -4,4 +4,19 @@
     <string name="login_identifier">Identifiant</string>
     <string name="login_password">Mot de passe</string>
     <string name="login_validate">Valider</string>
+    <string name="home_hello">Bonjour</string>
+    <string name="home_lifeCylce">Cycle de vie</string>
+    <string name="home_save">Sauvegard</string>
+    <string name="home_permission">Permission</string>
+    <string name="home_webservice">WebService</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_first_fragment">Hello First Fragment</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_second_fragment">Hello Second Fragment</string>
+    <string name="button_first_fragment">Swipe to second</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
