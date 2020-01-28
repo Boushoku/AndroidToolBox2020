@@ -18,6 +18,10 @@ class HomeActivity : AppCompatActivity() {
 
         saveButton.setOnClickListener { startActivity(Intent(this, SaveActivity::class.java)) }
 
+        permissionButton.setOnClickListener {
+            startActivity(Intent(this, PermissionActivity::class.java))
+        }
+
         logoutButton.setOnClickListener {
             val userPref = getSharedPreferences(Constants.UserPreferencesName, Context.MODE_PRIVATE)
             val editor = userPref.edit()

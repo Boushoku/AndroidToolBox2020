@@ -20,6 +20,8 @@ class SaveActivity : AppCompatActivity() {
         val kFilename = "data.json"
     }
 
+    var currentDate = Date()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_save)
@@ -69,7 +71,9 @@ class SaveActivity : AppCompatActivity() {
         val file = File(cacheDir.absolutePath+"/"+SaveActivity.kFilename)
         val readString = file.readText()
         val json = JSONObject(readString)
-        Toast.makeText(this,json.getString(SaveActivity.kBirthDay), Toast.LENGTH_LONG).show()
+        val dateString = json.getString(SaveActivity.kBirthDay)
+        val components = dateString.split("/")
+        Toast.makeText(this,"vous avez ${getAge(components[2].toInt(), components[1].toInt(), components[0].toInt())} ans", Toast.LENGTH_LONG).show()
     }
 
     fun onDateChoose(year: Int, month: Int, day: Int) {
@@ -77,6 +81,17 @@ class SaveActivity : AppCompatActivity() {
     }
 
     fun getAge(year: Int, month: Int, day: Int): Int {
-        return 0
+        val formatter = SimpleDateFormat("dd/MM/yyyy")
+        val dateString = formatter.format(currentDate)
+        val components = dateString.split("/")
+
+        var age = components[2].toInt() - year
+        if(components[1].toInt() < month) {
+            age--
+        } else if (components[1].toInt() == month &&
+            components[0].toInt() < day){
+            age --
+        }
+        return age
     }
 }
