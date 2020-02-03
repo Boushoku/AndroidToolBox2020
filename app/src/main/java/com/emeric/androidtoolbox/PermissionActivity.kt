@@ -12,10 +12,13 @@ import android.os.Bundle
 import android.provider.ContactsContract
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.Adapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_permission.*
 import java.io.File
 import java.security.acl.Permission
@@ -54,8 +57,16 @@ class PermissionActivity : AppCompatActivity() {
     }
 
     fun readContacts() {
+        val contactList = ArrayList<ContactModel>()
         val contacts = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null)
-        Log.d("contacts", "${contacts}")
+        while(contacts?.moveToNext() ?: false) {
+            val displayName = contacts?.getString(contacts.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+            val contactModel = ContactModel()
+            contactModel.displayName = displayName.toString()
+            contactList.add(contactModel)
+        }
+        contactRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        contactRecyclerView.adapter = ContactsAdapter(contactList)
     }
 
     fun requestPermission(permissionToRequest: String, requestCode: Int, handler: ()-> Unit) {
