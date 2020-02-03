@@ -26,6 +26,7 @@ class WebserviceActivity : AppCompatActivity() {
 
             result.results?.let {
                 Log.d("volley", it[0].gender)
+
             }
 
         }, Response.ErrorListener {
