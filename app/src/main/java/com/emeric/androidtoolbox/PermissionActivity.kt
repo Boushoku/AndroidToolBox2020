@@ -2,11 +2,16 @@ package com.emeric.androidtoolbox
 
 import android.R.attr
 import android.R.attr.bitmap
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
@@ -25,16 +30,21 @@ import java.security.acl.Permission
 import java.util.jar.Manifest
 
 
-class PermissionActivity : AppCompatActivity() {
+class PermissionActivity : AppCompatActivity(), LocationListener {
+
+    lateinit var locationManager: LocationManager
 
     companion object {
         val pictureRequestCode = 1
         val contactPermissionRequestCode = 2
+        val gpsPermissionRequestCode = 3
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_permission)
+
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
         pictureButton.setOnClickListener {
             onChangePhoto()
@@ -42,6 +52,10 @@ class PermissionActivity : AppCompatActivity() {
 
         requestPermission(android.Manifest.permission.READ_CONTACTS, contactPermissionRequestCode) {
             readContacts()
+        }
+
+        requestPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION, gpsPermissionRequestCode) {
+            startGPS()
         }
     }
 
@@ -67,6 +81,19 @@ class PermissionActivity : AppCompatActivity() {
         }
         contactRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         contactRecyclerView.adapter = ContactsAdapter(contactList)
+    }
+
+    @SuppressLint("MissingPermission")
+    fun startGPS() {
+        locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, this, null)
+        val location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+        location?.let {
+            refreshPositionUI(it)
+        }
+    }
+
+    fun refreshPositionUI(location: Location) {
+        locationTextView.text = "latitude : ${location.latitude} \nlongitude : ${location.longitude}"
     }
 
     fun requestPermission(permissionToRequest: String, requestCode: Int, handler: ()-> Unit) {
@@ -110,4 +137,16 @@ class PermissionActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onLocationChanged(location: Location?) {
+        location?.let {
+            refreshPositionUI(it)
+        }
+    }
+
+    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+
+    override fun onProviderEnabled(provider: String?) {}
+
+    override fun onProviderDisabled(provider: String?) {}
 }
