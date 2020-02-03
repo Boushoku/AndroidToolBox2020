@@ -32,5 +32,9 @@ class HomeActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
+        webserviceButton.setOnClickListener {
+            startActivity(Intent(this, WebserviceActivity::class.java))
+        }
     }
 }
